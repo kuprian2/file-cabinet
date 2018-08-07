@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FileCabinet.WebApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
-using FileCabinet.WebApi.Models;
 
 namespace FileCabinet.WebApi.ModelBinders
 {
@@ -23,13 +23,13 @@ namespace FileCabinet.WebApi.ModelBinders
             {
                 var list = attemptedValue
                     .Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(v => new TagModel {Name = v});
+                    .Select(v => new TagInfoModel {Name = v});
 
                 bindingContext.Model = list;
             }
             else
             {
-                bindingContext.Model = new List<TagModel>();
+                bindingContext.Model = new List<TagInfoModel>();
             }
 
             return true;

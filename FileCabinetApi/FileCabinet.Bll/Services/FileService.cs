@@ -34,13 +34,6 @@ namespace FileCabinet.Bll.Services
             return Mapper.Map<IEnumerable<FileDto>>(filteredFiles);
         }
 
-        private bool IsTaggedWithAll(File file, IEnumerable<TagDto> tags)
-        {
-            var tagNames = tags.Select(x => x.Name);
-            var fileTagNames = file.Tags.Select(x => x.Name);
-            return !tagNames.Except(fileTagNames).Any();
-        }
-
         public IEnumerable<FileDto> GetByFilter(string keyword)
         {
             var filteredFiles = Repository.Find(file =>

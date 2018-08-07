@@ -10,6 +10,6 @@ namespace FileCabinet.WebApi.Models
 
         public string Description { get; set; }
 
-        public ICollection<TagModel> Tags { get; set; }
+        public ICollection<TagInfoModel> Tags { get; set; }
     }
 }

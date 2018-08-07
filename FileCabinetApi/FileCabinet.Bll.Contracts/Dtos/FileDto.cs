@@ -19,7 +19,5 @@ namespace FileCabinet.Bll.Contracts.Dtos
         public ICollection<TagDto> Tags { get; set; }
 
         public ICollection<UserDto> BookmarkedUsers { get; set; }
-
-        public ICollection<UserDto> FavouritedUsers { get; set; }
     }
 }

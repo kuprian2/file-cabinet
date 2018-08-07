@@ -20,29 +20,37 @@ namespace FileCabinet.WebApi.Controllers
             _mapper = mapper;
         }
 
-        // GET api/files/5
-        [HttpGet]
-        public FileInfoModel Get(int id)
-        {
-            return _mapper.Map<FileInfoModel>(_fileService.Get(id));
-        }
-
         // GET api/files?tags=tag1,tag2,tag3
         [HttpGet]
-        public IEnumerable<FileInfoModel> Get(
-            [ModelBinder(typeof(CommaDelimitedArrayModelBinder))]IEnumerable<TagModel> tags)
-            {
+        public IHttpActionResult Get(
+            [ModelBinder(typeof(CommaDelimitedArrayModelBinder))]IEnumerable<TagInfoModel> tags)
+        {
             var mappedTags = _mapper.Map<IEnumerable<TagDto>>(tags);
             var filteredFiles = _fileService.GetByTags(mappedTags);
-            return _mapper.Map<IEnumerable<FileInfoModel>>(filteredFiles);
+            var mappedFiles = _mapper.Map<IEnumerable<FileInfoModel>>(filteredFiles);
+
+            return Ok(mappedFiles);
+        }
+
+        // GET api/files/5
+        [HttpGet]
+        public IHttpActionResult Get(int id)
+        {
+            var fileDto = _fileService.Get(id);
+
+            if (fileDto == null) return NotFound();
+
+            return Ok(_mapper.Map<FileInfoModel>(fileDto));
         }
 
         // GET api/files?keyword=somefilter
         [HttpGet]
-        public IEnumerable<FileInfoModel> Search([FromUri] string keyword)
+        public IHttpActionResult Search([FromUri] string keyword)
         {
             var filteredFiles = _fileService.GetByFilter(keyword);
-            return _mapper.Map<IEnumerable<FileInfoModel>>(filteredFiles);
+            var mappedFiles = _mapper.Map<IEnumerable<FileInfoModel>>(filteredFiles);
+
+            return Ok(mappedFiles);
         }
 
         // DELETE api/files/5
@@ -54,19 +62,30 @@ namespace FileCabinet.WebApi.Controllers
 
         // POST api/files
         [HttpPost]
-        public int Post([FromBody] FileCreateModel file)
+        public IHttpActionResult Post([FromBody] FileCreateModel fileModel)
         {
-            var fileDto = _mapper.Map<FileDto>(file);
-            return _fileService.Create(fileDto);
+            if (fileModel == null) return BadRequest();
+
+            var fileDto = _mapper.Map<FileDto>(fileModel);
+            var createdFileId = _fileService.Create(fileDto);
+
+            return Ok(createdFileId);
         }
 
         // PUT api/files/5
         [HttpPut]
-        public void Put(int id, [FromBody] FileUpdateModel file)
+        public IHttpActionResult Put(int id, [FromBody] FileUpdateModel fileModel)
         {
-            var fileDto = _mapper.Map<FileDto>(file);
+            if (fileModel == null) return BadRequest();
+
+            var fileInDataSource = _fileService.Get(id);
+
+            if (fileInDataSource == null) return NotFound();
+                
+            var fileDto = _mapper.Map<FileDto>(fileModel);
             fileDto.Id = id;
             _fileService.Update(fileDto);
+            return Ok();
         }
     }
 }

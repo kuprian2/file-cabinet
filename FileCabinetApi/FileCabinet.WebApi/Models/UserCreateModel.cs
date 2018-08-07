@@ -2,11 +2,9 @@
 
 namespace FileCabinet.WebApi.Models
 {
-    public class FileUpdateModel
+    public class UserCreateModel
     {
         public string Name { get; set; }
-
-        public string Description { get; set; }
 
         public ICollection<TagInfoModel> Tags { get; set; }
     }

@@ -1,9 +1,7 @@
 ﻿namespace FileCabinet.WebApi.Models
 {
-    public class TagModel
+    public class TagUpdateModel
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
     }
 }

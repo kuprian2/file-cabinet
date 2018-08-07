@@ -7,8 +7,6 @@ namespace FileCabinet.Bll.Contracts.Dtos
     {
         public string Name { get; set; }
 
-        public ICollection<FileDto> Favourites { get; set; }
-
         public ICollection<FileDto> Bookmarks { get; set; }
     }
 }

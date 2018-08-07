@@ -111,6 +111,7 @@
     <Compile Include="Configuration\MappingProfile.cs" />
     <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -118,7 +119,12 @@
     <Compile Include="Models\FileCreateModel.cs" />
     <Compile Include="Models\FileInfoModel.cs" />
     <Compile Include="Models\FileUpdateModel.cs" />
-    <Compile Include="Models\TagModel.cs" />
+    <Compile Include="Models\TagCreateModel.cs" />
+    <Compile Include="Models\TagInfoModel.cs" />
+    <Compile Include="Models\TagUpdateModel.cs" />
+    <Compile Include="Models\UserCreateModel.cs" />
+    <Compile Include="Models\UserInfoModel.cs" />
+    <Compile Include="Models\UserUpdateModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -11,9 +11,10 @@ namespace FileCabinet.WebApi.Configuration
     {
         public MappingProfile()
         {
+            CreateMap<TagDto, TagInfoModel>().ReverseMap();
+            CreateMap<TagCreateModel, TagDto>();
+            CreateMap<TagUpdateModel, TagDto>();
             CreateMap<FileDto, FileInfoModel>();
-
-            CreateMap<TagDto, TagModel>().ReverseMap();
 
             CreateMap<FileCreateModel, FileDto>()
                 .ForMember(dest => dest.UploadDate, opt =>
@@ -24,6 +25,10 @@ namespace FileCabinet.WebApi.Configuration
             CreateMap<FileUpdateModel, FileDto>()
                 .ForMember(dest => dest.Url,
                     opt => opt.MapFrom(src => FormFullPath(src.Name)));
+
+            CreateMap<UserDto, UserInfoModel>();
+            CreateMap<UserUpdateModel, UserDto>();
+            CreateMap<UserCreateModel, UserDto>();
         }
 
         public string FormFullPath(string fileName)
