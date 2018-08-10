@@ -5,6 +5,7 @@ using FileCabinet.Dal.Contracts.Domain.Base;
 using FileCabinet.Dal.Contracts.Repositories;
 using FileCabinet.Dal.Contracts.UoW;
 using System;
+using System.Threading.Tasks;
 
 namespace FileCabinet.Bll.Services.Base
 {
@@ -18,16 +19,8 @@ namespace FileCabinet.Bll.Services.Base
         {
         }
 
-        public int Create(TPlainEntityDto entityDto)
-        {
-            if (entityDto == null) throw new ArgumentNullException(nameof(entityDto));
+        public abstract int Create(TPlainEntityDto tagDto);
 
-            var mappedEntity = Mapper.Map<TEntity>(entityDto);
-
-            Repository.Create(mappedEntity);
-            UnitOfWork.SaveChanges();
-
-            return mappedEntity.Id;
-        }
+        public abstract Task<int> CreateAsync(TPlainEntityDto userDto);
     }
 }

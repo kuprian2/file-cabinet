@@ -16,8 +16,6 @@ namespace FileCabinet.WebApi.Configuration
             CreateMap<TagUpdateModel, TagDto>();
 
             CreateMap<FileDto, FileInfoModel>();
-            CreateMap<FileUpdateModel, FileDto>();
-            CreateMap<FileCreateModel, FileDto>();
             
             CreateMap<UserDto, UserInfoModel>();
             CreateMap<UserUpdateModel, UserDto>();

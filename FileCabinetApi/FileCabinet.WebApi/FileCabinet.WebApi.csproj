@@ -116,9 +116,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ModelBinders\CommaDelimitedArrayModelBinder.cs" />
-    <Compile Include="Models\FileCreateModel.cs" />
     <Compile Include="Models\FileInfoModel.cs" />
-    <Compile Include="Models\FileUpdateModel.cs" />
     <Compile Include="Models\TagCreateModel.cs" />
     <Compile Include="Models\TagInfoModel.cs" />
     <Compile Include="Models\TagUpdateModel.cs" />

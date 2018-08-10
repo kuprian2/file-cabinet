@@ -3,7 +3,14 @@ using FileCabinet.Bll.Contracts.Dtos;
 using FileCabinet.Bll.Contracts.Services;
 using FileCabinet.WebApi.ModelBinders;
 using FileCabinet.WebApi.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 
@@ -12,21 +19,23 @@ namespace FileCabinet.WebApi.Controllers
     public class FilesController : ApiController
     {
         private readonly IFileService _fileService;
+        private readonly ITagService _tagService;
         private readonly IMapper _mapper;
 
-        public FilesController(IFileService fileService, IMapper mapper)
+        public FilesController(IFileService fileService, ITagService tagService, IMapper mapper)
         {
             _fileService = fileService;
+            _tagService = tagService;
             _mapper = mapper;
         }
 
         // GET api/files?tags=tag1,tag2,tag3
         [HttpGet]
-        public IHttpActionResult Get(
+        public async Task<IHttpActionResult> GetInfo(
             [ModelBinder(typeof(CommaDelimitedArrayModelBinder))]IEnumerable<TagInfoModel> tags)
         {
             var mappedTags = _mapper.Map<IEnumerable<TagDto>>(tags);
-            var filteredFiles = _fileService.GetByTags(mappedTags);
+            var filteredFiles = await _fileService.GetByTagsAsync(mappedTags);
             var mappedFiles = _mapper.Map<IEnumerable<FileInfoModel>>(filteredFiles);
 
             return Ok(mappedFiles);
@@ -34,9 +43,9 @@ namespace FileCabinet.WebApi.Controllers
 
         // GET api/files/5
         [HttpGet]
-        public IHttpActionResult Get(int id)
+        public async Task<IHttpActionResult> GetInfo(int id)
         {
-            var fileDto = _fileService.Get(id);
+            var fileDto = await _fileService.GetAsync(id);
 
             if (fileDto == null) return NotFound();
 
@@ -45,9 +54,9 @@ namespace FileCabinet.WebApi.Controllers
 
         // GET api/files?keyword=somefilter
         [HttpGet]
-        public IHttpActionResult Search([FromUri] string keyword)
+        public async Task<IHttpActionResult> Search([FromUri] string keyword)
         {
-            var filteredFiles = _fileService.GetByFilter(keyword);
+            var filteredFiles = await _fileService.GetByFilterAsync(keyword);
             var mappedFiles = _mapper.Map<IEnumerable<FileInfoModel>>(filteredFiles);
 
             return Ok(mappedFiles);
@@ -55,37 +64,122 @@ namespace FileCabinet.WebApi.Controllers
 
         // DELETE api/files/5
         [HttpDelete]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _fileService.Delete(id);
+            await _fileService.DeleteAsync(id);
         }
 
-        // POST api/files
-        [HttpPost]
-        public IHttpActionResult Post([FromBody] FileCreateModel fileModel)
+        // GET download/5
+        [Route("api/download/{id}")]
+        [HttpGet]
+        public async Task<IHttpActionResult> Download(int id)
         {
-            if (fileModel == null) return BadRequest();
+            var fileDto = await _fileService.GetAsync(id);
 
-            var fileDto = _mapper.Map<FileDto>(fileModel);
-            var createdFileId = _fileService.Create(fileDto);
+            if (fileDto == null) return NotFound();
 
-            return Ok(createdFileId);
+            var stream = await _fileService.ReadAsync(fileDto);
+
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StreamContent(stream);
+            response.Content.Headers.ContentType =
+                new MediaTypeHeaderValue("application/octet-stream");
+
+            response.Content.Headers.ContentDisposition =
+                new ContentDispositionHeaderValue("attachment") { FileName = fileDto.Url };
+
+            return ResponseMessage(response);
+        }
+
+        // POST api/files/upload
+        [Route("api/upload")]
+        [HttpPost]
+        public async Task<IHttpActionResult> PostFile()
+        {
+            var httpRequest = HttpContext.Current.Request;
+            var file = httpRequest.Files["file"];
+
+            if (file == null) return BadRequest();
+
+            var fileNameValue = httpRequest["fileName"];
+            var fileDescriptionValue = httpRequest["fileDescription"];
+            var fileTagsIdsValue = httpRequest["fileTagsIds"];
+
+            if (fileNameValue == null || fileDescriptionValue == null || fileTagsIdsValue == null)
+                return BadRequest();
+            
+            var tags = await ParseTags(fileTagsIdsValue);
+
+            if (tags == null) return BadRequest();
+
+            var fileDto = new FileDto
+            {
+                Name = fileNameValue,
+                Description = fileDescriptionValue,
+                Tags = tags
+            };
+
+            var dataStream = file.InputStream;
+            var createdFileId = await _fileService.SaveAsync(fileDto, dataStream);
+
+            return Created(fileDto.Name, createdFileId);
         }
 
         // PUT api/files/5
+        [Route("api/upload/{id}")]
         [HttpPut]
-        public IHttpActionResult Put(int id, [FromBody] FileUpdateModel fileModel)
+        public async Task<IHttpActionResult> EditFile(int id)
         {
-            if (fileModel == null) return BadRequest();
+            var httpRequest = HttpContext.Current.Request;
+            
+            var fileNameValue = httpRequest["fileName"];
+            var fileDescriptionValue = httpRequest["fileDescription"];
+            var fileTagsIdsValue = httpRequest["fileTagsIds"];
 
-            var fileInDataSource = _fileService.Get(id);
+            if (fileNameValue == null || fileDescriptionValue == null || fileTagsIdsValue == null)
+                return BadRequest();
 
-            if (fileInDataSource == null) return NotFound();
-                
-            var fileDto = _mapper.Map<FileDto>(fileModel);
-            fileDto.Id = id;
-            _fileService.Update(fileDto);
+            var tags = await ParseTags(fileTagsIdsValue);
+
+            if (tags == null) return BadRequest();
+
+            var fileDto = new FileDto
+            {
+                Name = fileNameValue,
+                Description = fileDescriptionValue,
+                Tags = tags
+            };
+
+            var file = httpRequest.Files["file"];
+
+            if (file == null)
+            {
+                await _fileService.UpdateAsync(fileDto);
+            }
+            else
+            {
+                var dataStream = file.InputStream;
+                await _fileService.UpdateAsync(fileDto, dataStream);
+            }
+
             return Ok();
+        }
+
+        private async Task<ICollection<TagDto>> ParseTags(string fileTagsIdsValue)
+        {
+            var splitFileTagsIdsValue = fileTagsIdsValue
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(str => str.Trim()).ToList();
+
+            // If unable to parse ids.
+            if (splitFileTagsIdsValue.Count != 0 && splitFileTagsIdsValue.Any(tag => !int.TryParse(tag, out var _)))
+            {
+                return null;
+            }
+
+            var fileTagsIds = splitFileTagsIdsValue.Select(int.Parse);
+
+            return (await _tagService.FindAsync(tag => fileTagsIds.Contains(tag.Id))).ToList();
         }
     }
 }

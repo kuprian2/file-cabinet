@@ -3,6 +3,7 @@ using FileCabinet.Bll.Contracts.Dtos;
 using FileCabinet.Bll.Contracts.Services;
 using FileCabinet.WebApi.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace FileCabinet.WebApi.Controllers
@@ -20,17 +21,18 @@ namespace FileCabinet.WebApi.Controllers
 
         // GET api/tags
         [HttpGet]
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
-            var tagDtos = _mapper.Map<IEnumerable<TagInfoModel>>(_tagService.GetAll());
-            return Ok(tagDtos);
+            var tagDtos = await _tagService.GetAllAsync();
+            var tagModels = _mapper.Map<IEnumerable<TagInfoModel>>(tagDtos);
+            return Ok(tagModels);
         }
 
         // GET api/tags/5
         [HttpGet]
-        public IHttpActionResult Get(int id)
+        public async Task<IHttpActionResult> Get(int id)
         {
-            var tagDto = _tagService.Get(id);
+            var tagDto = await _tagService.GetAsync(id);
 
             if (tagDto == null) return NotFound();
 
@@ -39,19 +41,19 @@ namespace FileCabinet.WebApi.Controllers
 
         // DELETE api/tags/5
         [HttpDelete]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _tagService.Delete(id);
+            await _tagService.DeleteAsync(id);
         }
 
         // POST api/tags
         [HttpPost]
-        public IHttpActionResult Post([FromBody] TagCreateModel tagModel)
+        public async Task<IHttpActionResult> Post([FromBody] TagCreateModel tagModel)
         {
             if (tagModel == null) return BadRequest();
 
             var tagDto = _mapper.Map<TagDto>(tagModel);
-            var createdTagId = _tagService.Create(tagDto);
+            var createdTagId = await _tagService.CreateAsync(tagDto);
 
             return Ok(createdTagId);
         }

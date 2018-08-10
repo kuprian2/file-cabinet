@@ -1,4 +1,5 @@
 ﻿using FileCabinet.Bll.Contracts.Dtos.Base;
+using System.Threading.Tasks;
 
 namespace FileCabinet.Bll.Contracts.Services.Base
 {
@@ -6,6 +7,8 @@ namespace FileCabinet.Bll.Contracts.Services.Base
         : IService<TPlainEntityDto, TKey>
         where TPlainEntityDto : EntityDto<TKey>
     {
-        int Create(TPlainEntityDto entityDto);
+        int Create(TPlainEntityDto tagDto);
+
+        Task<int> CreateAsync(TPlainEntityDto userDto);
     }
 }

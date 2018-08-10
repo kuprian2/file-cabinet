@@ -3,6 +3,7 @@ using FileCabinet.Bll.Contracts.Dtos;
 using FileCabinet.Bll.Contracts.Services;
 using FileCabinet.WebApi.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace FileCabinet.WebApi.Controllers
@@ -20,17 +21,18 @@ namespace FileCabinet.WebApi.Controllers
 
         // GET api/users
         [HttpGet]
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
-            var users = _mapper.Map<IEnumerable<UserInfoModel>>(_userService.GetAll());
-            return Ok(users);
+            var userDtos = await _userService.GetAllAsync();
+            var userModels = _mapper.Map<IEnumerable<UserInfoModel>>(userDtos);
+            return Ok(userModels);
         }
 
         // GET api/users/5
         [HttpGet]
-        public IHttpActionResult Get(int id)
+        public async Task<IHttpActionResult> Get(int id)
         {
-            var userDto = _userService.Get(id);
+            var userDto = await _userService.GetAsync(id);
 
             if (userDto == null) return NotFound();
 
@@ -39,19 +41,19 @@ namespace FileCabinet.WebApi.Controllers
 
         // DELETE api/users/5
         [HttpDelete]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _userService.Delete(id);
+            await _userService.DeleteAsync(id);
         }
 
         // POST api/users
         [HttpPost]
-        public IHttpActionResult Post([FromBody] UserCreateModel userModel)
+        public async Task<IHttpActionResult> Post([FromBody] UserCreateModel userModel)
         {
             if (userModel == null) return BadRequest();
 
             var userDto = _mapper.Map<UserDto>(userModel);
-            var userCreatedId = _userService.Create(userDto);
+            var userCreatedId = await _userService.CreateAsync(userDto);
 
             return Ok(userCreatedId);
         }

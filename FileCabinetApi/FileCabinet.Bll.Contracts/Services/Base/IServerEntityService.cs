@@ -1,5 +1,6 @@
-﻿using System.IO;
-using FileCabinet.Bll.Contracts.Dtos.Base;
+﻿using FileCabinet.Bll.Contracts.Dtos.Base;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace FileCabinet.Bll.Contracts.Services.Base
 {
@@ -9,8 +10,12 @@ namespace FileCabinet.Bll.Contracts.Services.Base
     {
         int Save(TServerEntityDto entityDto, Stream stream);
 
+        Task<int> SaveAsync(TServerEntityDto entityDto, Stream stream);
+
         void Update(TServerEntityDto entityDto, Stream stream);
 
-        Stream Read(TServerEntityDto entityDto);
+        Task UpdateAsync(TServerEntityDto entityDto, Stream stream);
+
+        Task<Stream> ReadAsync(TServerEntityDto entityDto);
     }
 }

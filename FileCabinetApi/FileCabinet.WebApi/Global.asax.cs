@@ -20,9 +20,6 @@ namespace FileCabinet.WebApi
 
             var config = GlobalConfiguration.Configuration;
 
-            //// OPTIONAL: Register the Autofac filter provider.
-            //builder.RegisterWebApiFilterProvider(config);
-
             //// OPTIONAL: Register the Autofac model binder provider.
             //builder.RegisterWebApiModelBinderProvider();
             

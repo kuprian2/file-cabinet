@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace FileCabinet.Bll.Services.Base
 {
@@ -32,9 +33,20 @@ namespace FileCabinet.Bll.Services.Base
             return Mapper.Map<IEnumerable<TEntityDto>>(entities);
         }
 
+        public async Task<IEnumerable<TEntityDto>> GetAllAsync()
+        {
+            var entities = (await Repository.GetAllAsync()).ToList();
+            return Mapper.Map<IEnumerable<TEntityDto>>(entities);
+        }
+
         public TEntityDto Get(int id)
         {
             return Mapper.Map<TEntityDto>(Repository.Get(id));
+        }
+
+        public async Task<TEntityDto> GetAsync(int id)
+        {
+            return Mapper.Map<TEntityDto>(await Repository.GetAsync(id));
         }
 
         public void Update(TEntityDto entityDto)
@@ -46,10 +58,25 @@ namespace FileCabinet.Bll.Services.Base
             UnitOfWork.SaveChanges();
         }
 
+        public async Task UpdateAsync(TEntityDto entityDto)
+        {
+            if (entityDto == null) throw new ArgumentNullException(nameof(entityDto));
+
+            var entity = Mapper.Map<TEntity>(entityDto);
+            await Repository.UpdateAsync(entity);
+            await UnitOfWork.SaveChangesAsync();
+        }
+
         public void Delete(int id)
         {
-            Repository.Delete(id);
-            UnitOfWork.SaveChanges();
+            Repository.DeleteAsync(id);
+            UnitOfWork.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await Repository.DeleteAsync(id);
+            await UnitOfWork.SaveChangesAsync();
         }
 
         public IEnumerable<TEntityDto> Find(Expression<Func<TEntityDto, bool>> predicate)
@@ -58,6 +85,16 @@ namespace FileCabinet.Bll.Services.Base
 
             var mappedPredicate = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
             var foundEntities = Repository.Find(mappedPredicate).ToList();
+
+            return Mapper.Map<IEnumerable<TEntityDto>>(foundEntities);
+        }
+
+        public async Task<IEnumerable<TEntityDto>> FindAsync(Expression<Func<TEntityDto, bool>> predicate)
+        {
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
+            var mappedPredicate = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
+            var foundEntities = (await Repository.FindAsync(mappedPredicate)).ToList();
 
             return Mapper.Map<IEnumerable<TEntityDto>>(foundEntities);
         }

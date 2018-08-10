@@ -19,6 +19,8 @@ namespace FileCabinet.Dal.EF
                 new Tag {Name = "forAdvanced"}
             };
 
+            context.Tags.AddRange(tags);
+            context.SaveChanges();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using FileCabinet.Bll.Contracts.Dtos;
 using FileCabinet.Bll.Contracts.Services.Base;
 using System.Collections.Generic;
-using System.IO;
+using System.Threading.Tasks;
 
 namespace FileCabinet.Bll.Contracts.Services
 {
@@ -9,6 +9,10 @@ namespace FileCabinet.Bll.Contracts.Services
     {
         IEnumerable<FileDto> GetByTags(IEnumerable<TagDto> tags);
 
+        Task<IEnumerable<FileDto>> GetByTagsAsync(IEnumerable<TagDto> tags);
+
         IEnumerable<FileDto> GetByFilter(string keyword);
+
+        Task<IEnumerable<FileDto>> GetByFilterAsync(string keyword);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace FileCabinet.Bll.StorageServices
 {
@@ -7,6 +8,8 @@ namespace FileCabinet.Bll.StorageServices
         void Delete(string filepath);
 
         string Create(Stream dataStream, string filename);
+
+        Task<string> CreateAsync(Stream dataStream, string filename);
 
         Stream Read(string filepath);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FileCabinet.Bll.StorageServices
 {
@@ -29,6 +30,29 @@ namespace FileCabinet.Bll.StorageServices
                     fileStream.Write(bytes, 0, bytes.Length);
                 } while (bytes.Length >= BufferSize);
             }
+            
+            return filePath;
+        }
+
+        public async Task<string> CreateAsync(Stream dataStream, string filename)
+        {
+            var filePath = FormFullPath(filename);
+
+            await Task.Run(() =>
+            {
+                using (var fileStream = File.OpenWrite(filePath))
+
+                using (var streamReader = new BinaryReader(dataStream))
+                {
+                    byte[] bytes;
+
+                    do
+                    {
+                        bytes = streamReader.ReadBytes(BufferSize);
+                        fileStream.Write(bytes, 0, bytes.Length);
+                    } while (bytes.Length >= BufferSize);
+                }
+            });
 
             return filePath;
         }
