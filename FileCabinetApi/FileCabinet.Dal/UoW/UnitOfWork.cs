@@ -1,6 +1,7 @@
 ﻿using FileCabinet.Dal.Contracts.UoW;
 using System;
 using System.Data.Entity;
+using System.Threading.Tasks;
 
 namespace FileCabinet.Dal.UoW
 {
@@ -16,6 +17,11 @@ namespace FileCabinet.Dal.UoW
         public void SaveChanges()
         {
             _dbContext.SaveChanges();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _dbContext.SaveChangesAsync();
         }
 
         public void Dispose()

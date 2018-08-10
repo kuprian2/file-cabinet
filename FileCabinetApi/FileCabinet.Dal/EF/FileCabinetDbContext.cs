@@ -24,10 +24,6 @@ namespace FileCabinet.Dal.EF
                 .Conventions
                 .Remove<OneToManyCascadeDeleteConvention>();
 
-            //modelBuilder
-            //    .Conventions
-            //    .Remove<ManyToManyCascadeDeleteConvention>();
-
             modelBuilder
                 .Properties<DateTime>()
                 .Configure(c => c.HasColumnType("datetime2"));
