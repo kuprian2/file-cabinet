@@ -8,7 +8,7 @@ using FileCabinet.Dal.Contracts.UoW;
 
 namespace FileCabinet.Bll.Services
 {
-    public class TagService : Service<TagDto, Tag>, ITagService
+    public class TagService : PlainEntityService<TagDto, Tag>, ITagService
     {
         public TagService(IUnitOfWork unitOfWork, IRepository<Tag, int> repository, IMapper mapper) 
             : base(unitOfWork, repository, mapper)

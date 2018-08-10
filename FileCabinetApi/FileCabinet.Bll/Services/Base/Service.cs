@@ -37,18 +37,6 @@ namespace FileCabinet.Bll.Services.Base
             return Mapper.Map<TEntityDto>(Repository.Get(id));
         }
 
-        public int Create(TEntityDto entityDto)
-        {
-            if (entityDto == null) throw new ArgumentNullException(nameof(entityDto));
-
-            var mappedEntity = Mapper.Map<TEntity>(entityDto);
-
-            Repository.Create(mappedEntity);
-            UnitOfWork.SaveChanges();
-
-            return mappedEntity.Id;
-        }
-
         public void Update(TEntityDto entityDto)
         {
             if (entityDto == null) throw new ArgumentNullException(nameof(entityDto));

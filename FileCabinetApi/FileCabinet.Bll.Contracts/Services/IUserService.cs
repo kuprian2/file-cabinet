@@ -3,7 +3,7 @@ using FileCabinet.Bll.Contracts.Services.Base;
 
 namespace FileCabinet.Bll.Contracts.Services
 {
-    public interface IUserService : IService<UserDto, int>
+    public interface IUserService : IPlainEntityService<UserDto, int>
     {
     }
 }

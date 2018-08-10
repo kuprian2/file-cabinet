@@ -10,8 +10,6 @@ namespace FileCabinet.Bll.Contracts.Services.Base
         IEnumerable<TEntityDto> GetAll();
 
         TEntityDto Get(TKey id);
-        
-        int Create(TEntityDto entityDto);
 
         void Update(TEntityDto entityDto);
 

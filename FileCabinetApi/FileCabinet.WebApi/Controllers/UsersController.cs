@@ -58,7 +58,7 @@ namespace FileCabinet.WebApi.Controllers
 
         // PUT api/users/5
         [HttpPut]
-        public IHttpActionResult Post(int id, [FromBody] UserUpdateModel userModel)
+        public IHttpActionResult Put(int id, [FromBody] UserUpdateModel userModel)
         {
             if (userModel == null) return BadRequest();
 

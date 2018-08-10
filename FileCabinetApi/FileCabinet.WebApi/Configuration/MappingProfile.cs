@@ -14,37 +14,14 @@ namespace FileCabinet.WebApi.Configuration
             CreateMap<TagDto, TagInfoModel>().ReverseMap();
             CreateMap<TagCreateModel, TagDto>();
             CreateMap<TagUpdateModel, TagDto>();
+
             CreateMap<FileDto, FileInfoModel>();
-
-            CreateMap<FileCreateModel, FileDto>()
-                .ForMember(dest => dest.UploadDate, opt =>
-                    opt.UseValue(DateTime.Now))
-                .ForMember(dest => dest.Url,
-                    opt => opt.MapFrom(src => FormFullPath(src.Name)));
-
-            CreateMap<FileUpdateModel, FileDto>()
-                .ForMember(dest => dest.Url,
-                    opt => opt.MapFrom(src => FormFullPath(src.Name)));
-
+            CreateMap<FileUpdateModel, FileDto>();
+            CreateMap<FileCreateModel, FileDto>();
+            
             CreateMap<UserDto, UserInfoModel>();
             CreateMap<UserUpdateModel, UserDto>();
             CreateMap<UserCreateModel, UserDto>();
-        }
-
-        public string FormFullPath(string fileName)
-        {
-            var normalizedFileName = new string(
-                    fileName.
-                        Trim()
-                        .ToCharArray()
-                        .Except(Path.GetInvalidFileNameChars())
-                        .ToArray())
-                .ToLowerInvariant()
-                .Replace(' ', '-');
-
-            return Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                normalizedFileName);
         }
     }
 }

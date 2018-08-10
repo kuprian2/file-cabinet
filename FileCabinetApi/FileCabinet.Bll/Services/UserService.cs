@@ -8,7 +8,7 @@ using FileCabinet.Dal.Contracts.UoW;
 
 namespace FileCabinet.Bll.Services
 {
-    public class UserService : Service<UserDto, User>, IUserService
+    public class UserService : PlainEntityService<UserDto, User>, IUserService
     {
         public UserService(IUnitOfWork unitOfWork, IRepository<User, int> repository, IMapper mapper) 
             : base(unitOfWork, repository, mapper)

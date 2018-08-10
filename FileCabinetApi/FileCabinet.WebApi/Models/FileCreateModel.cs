@@ -6,8 +6,6 @@ namespace FileCabinet.WebApi.Models
     {
         public string Name { get; set; }
 
-        public long SizeInBytes { get; set; }
-
         public string Description { get; set; }
 
         public ICollection<TagInfoModel> Tags { get; set; }
