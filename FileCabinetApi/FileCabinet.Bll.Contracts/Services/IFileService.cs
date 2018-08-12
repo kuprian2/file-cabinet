@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FileCabinet.Bll.Contracts.Services
 {
-    public interface IFileService : IServerEntityService<FileDto, int>
+    public interface IFileService : IComplexEntityService<FileDto, int>
     {
         IEnumerable<FileDto> GetByTags(IEnumerable<TagDto> tags);
 

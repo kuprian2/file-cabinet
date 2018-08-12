@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FileCabinet.Bll.Services.Base
 {
-    public abstract class Service<TEntityDto, TEntity> : IService<TEntityDto, int> 
+    public abstract class Service<TEntityDto, TEntity> : IService<TEntityDto, int>
         where TEntityDto : EntityDto<int>
         where TEntity : Entity<int>
     {

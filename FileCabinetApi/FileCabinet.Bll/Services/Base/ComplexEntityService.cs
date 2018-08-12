@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 namespace FileCabinet.Bll.Services.Base
 {
     public abstract class ComplexEntityService<TComplexEntityDto, TEntity>
-        : Service<TComplexEntityDto, TEntity>, IServerEntityService<TComplexEntityDto, int>
+        : Service<TComplexEntityDto, TEntity>, IComplexEntityService<TComplexEntityDto, int>
         where TComplexEntityDto : EntityDto<int>
         where TEntity : Entity<int>
     {
-        protected ComplexEntityService(IUnitOfWork unitOfWork, IRepository<TEntity, int> repository, IMapper mapper) 
+        protected ComplexEntityService(IUnitOfWork unitOfWork, IRepository<TEntity, int> repository, IMapper mapper)
             : base(unitOfWork, repository, mapper)
         {
         }

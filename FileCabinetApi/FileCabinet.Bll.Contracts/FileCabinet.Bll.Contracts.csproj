@@ -46,7 +46,7 @@
     <Compile Include="Dtos\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Base\IPlainEntityService.cs" />
-    <Compile Include="Services\Base\IServerEntityService.cs" />
+    <Compile Include="Services\Base\IComplexEntityService.cs" />
     <Compile Include="Services\Base\IService.cs" />
     <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\ITagService.cs" />

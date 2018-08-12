@@ -9,7 +9,6 @@ namespace FileCabinet.Dal.EF
     {
         public FileCabinetDbContext(string connectionString) : base(connectionString)
         {
-            Database.SetInitializer(new FileCabinetContextInitializer());
         }
 
         public virtual DbSet<File> Files { get; set; }

@@ -20,6 +20,7 @@ namespace FileCabinet.WebApi.Controllers
         }
 
         // GET api/users
+        [Authorize]
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
@@ -39,25 +40,7 @@ namespace FileCabinet.WebApi.Controllers
             return Ok(_mapper.Map<UserInfoModel>(userDto));
         }
 
-        // DELETE api/users/5
-        [HttpDelete]
-        public async Task Delete(int id)
-        {
-            await _userService.DeleteAsync(id);
-        }
-
-        // POST api/users
-        [HttpPost]
-        public async Task<IHttpActionResult> Post([FromBody] UserCreateModel userModel)
-        {
-            if (userModel == null) return BadRequest();
-
-            var userDto = _mapper.Map<UserDto>(userModel);
-            var userCreatedId = await _userService.CreateAsync(userDto);
-
-            return Ok(userCreatedId);
-        }
-
+        [Authorize]
         // PUT api/users/5
         [HttpPut]
         public IHttpActionResult Put(int id, [FromBody] UserUpdateModel userModel)

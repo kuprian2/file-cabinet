@@ -15,14 +15,14 @@ namespace FileCabinet.Dal.Configuration
         {
             var connectionString = ConfigurationManager.ConnectionStrings["fileCabinet"].ConnectionString;
 
-            builder//.RegisterType<DbContext>().AsSelf()
+            builder
                 .RegisterType<FileCabinetDbContext>()
                 .As<DbContext>()
                 .WithParameter("connectionString", connectionString)
                 .InstancePerLifetimeScope();
 
-            builder.
-                RegisterGeneric(typeof(Repository<>))
+            builder
+                .RegisterGeneric(typeof(Repository<>))
                 .As(typeof(IRepository<,>))
                 .InstancePerLifetimeScope();
 

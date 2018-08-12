@@ -30,7 +30,7 @@ namespace FileCabinet.Bll.StorageServices
                     fileStream.Write(bytes, 0, bytes.Length);
                 } while (bytes.Length >= BufferSize);
             }
-            
+
             return filePath;
         }
 
@@ -69,18 +69,24 @@ namespace FileCabinet.Bll.StorageServices
 
         private string FormFullPath(string filename)
         {
-            var normalizedFileName = new string(
-                    filename.
-                        Trim()
-                        .ToCharArray()
-                        .Except(Path.GetInvalidFileNameChars())
-                        .ToArray())
-                .ToLowerInvariant()
-                .Replace(' ', '-');
+            var normalizedFileName = GetAppropriateFileName(filename);
 
             return Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 normalizedFileName);
+        }
+
+        private string GetAppropriateFileName(string filename)
+        {
+            var filenameChars =
+                filename
+                    .Trim()
+                    .Replace(' ', '-')
+                    .ToLowerInvariant()
+                    .Except(Path.GetInvalidFileNameChars())
+                    .ToArray();
+
+            return new string(filenameChars);
         }
     }
 }

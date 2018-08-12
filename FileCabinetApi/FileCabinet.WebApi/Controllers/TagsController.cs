@@ -39,6 +39,7 @@ namespace FileCabinet.WebApi.Controllers
             return Ok(_mapper.Map<TagInfoModel>(tagDto));
         }
 
+        [Authorize]
         // DELETE api/tags/5
         [HttpDelete]
         public async Task Delete(int id)
@@ -46,6 +47,7 @@ namespace FileCabinet.WebApi.Controllers
             await _tagService.DeleteAsync(id);
         }
 
+        [Authorize]
         // POST api/tags
         [HttpPost]
         public async Task<IHttpActionResult> Post([FromBody] TagCreateModel tagModel)

@@ -14,7 +14,7 @@ namespace FileCabinet.Bll.Services.Base
         where TPlainEntityDto : EntityDto<int>
         where TEntity : Entity<int>
     {
-        protected PlainEntityService(IUnitOfWork unitOfWork, IRepository<TEntity, int> repository, IMapper mapper) 
+        protected PlainEntityService(IUnitOfWork unitOfWork, IRepository<TEntity, int> repository, IMapper mapper)
             : base(unitOfWork, repository, mapper)
         {
         }
