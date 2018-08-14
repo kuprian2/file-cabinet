@@ -1,3 +1,47 @@
-<p>
-  sign-up works!
-</p>
+<div class="container">
+  <form #userRegistrationForm="ngForm"
+        (onSubmit)="OnSubMit(userRegistrationForm)">
+    <div class="form-group">
+      <label for="userEmail"
+             data-error="Required field.">Email Address</label>
+      <input type="email"
+             class="form-control validate"
+             id="userEmail"
+             aria-describedby="emailHelp"
+             placeholder="Enter email"
+             name="UserEmail"
+             #UserEmail="ngModel"
+             [(ngModel)]="user.Email"
+             required>
+    </div>
+    <div class="form-group">
+      <label for="userPassword"
+             data-error="Required field.">Password</label>
+      <input type="password"
+             class="form-control validate"
+             id="userPassword"
+             placeholder="Password"
+             name="Password"
+             #Password="ngModel"
+             [(ngModel)]="user.Password"
+             required
+             minlength="6">
+    </div>
+    <div class="form-group">
+      <label for="userConfirmPassword"
+             data-error="Required field.">Confirm Password</label>
+      <input type="password"
+             class="form-control validate"
+             id="userConfirmPassword"
+             placeholder="Confirm Password"
+             name="ConfirmPassword"
+             #ConfirmPassword="ngModel"
+             [(ngModel)]="user.ConfirmPassword"
+             required
+             minlength="6">
+    </div>
+    <button type="submit"
+            class="btn btn-dark"
+            [disabled]="!userRegistrationForm.valid">Sign Up</button>
+  </form>
+</div>
