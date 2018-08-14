@@ -7,7 +7,6 @@ using FileCabinet.Dal.Contracts.UoW;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace FileCabinet.Bll.Services.Base
@@ -77,26 +76,6 @@ namespace FileCabinet.Bll.Services.Base
         {
             await Repository.DeleteAsync(id);
             await UnitOfWork.SaveChangesAsync();
-        }
-
-        public IEnumerable<TEntityDto> Find(Expression<Func<TEntityDto, bool>> predicate)
-        {
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-
-            var mappedPredicate = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
-            var foundEntities = Repository.Find(mappedPredicate).ToList();
-
-            return Mapper.Map<IEnumerable<TEntityDto>>(foundEntities);
-        }
-
-        public async Task<IEnumerable<TEntityDto>> FindAsync(Expression<Func<TEntityDto, bool>> predicate)
-        {
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-
-            var mappedPredicate = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
-            var foundEntities = (await Repository.FindAsync(mappedPredicate)).ToList();
-
-            return Mapper.Map<IEnumerable<TEntityDto>>(foundEntities);
         }
     }
 }

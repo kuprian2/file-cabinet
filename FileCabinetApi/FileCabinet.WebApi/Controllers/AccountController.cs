@@ -11,6 +11,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -53,11 +54,13 @@ namespace FileCabinet.WebApi.Controllers
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
+            var email = User.Identity.GetUserName();
             return new UserInfoViewModel
             {
-                Email = User.Identity.GetUserName(),
+                Email = email,
                 HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null,
+                Id = _userService.GetByName(email).Id
             };
         }
 

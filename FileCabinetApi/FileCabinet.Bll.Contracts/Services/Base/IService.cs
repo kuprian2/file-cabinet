@@ -1,7 +1,5 @@
 ﻿using FileCabinet.Bll.Contracts.Dtos.Base;
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace FileCabinet.Bll.Contracts.Services.Base
@@ -23,9 +21,5 @@ namespace FileCabinet.Bll.Contracts.Services.Base
         void Delete(TKey id);
 
         Task DeleteAsync(TKey id);
-
-        IEnumerable<TEntityDto> Find(Expression<Func<TEntityDto, bool>> predicate);
-
-        Task<IEnumerable<TEntityDto>> FindAsync(Expression<Func<TEntityDto, bool>> predicate);
     }
 }
