@@ -1,6 +1,6 @@
 <div class="container">
   <form #userRegistrationForm="ngForm"
-        (onSubmit)="OnSubMit(userRegistrationForm)">
+        (ngSubmit)="onSubmit(userRegistrationForm)">
     <div class="form-group">
       <label for="userEmail"
              data-error="Required field.">Email Address</label>
@@ -9,8 +9,8 @@
              id="userEmail"
              aria-describedby="emailHelp"
              placeholder="Enter email"
-             name="UserEmail"
-             #UserEmail="ngModel"
+             name="Email"
+             #Email="ngModel"
              [(ngModel)]="user.Email"
              required>
     </div>

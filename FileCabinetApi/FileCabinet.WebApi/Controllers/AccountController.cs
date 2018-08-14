@@ -301,7 +301,7 @@ namespace FileCabinet.WebApi.Controllers
 
             await _userService.CreateAsync(newUser);
 
-            return Ok();
+            return Ok(result);
         }
 
         // POST api/Account/RegisterExternal

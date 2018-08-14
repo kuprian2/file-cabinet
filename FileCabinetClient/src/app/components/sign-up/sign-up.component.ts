@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserRegister } from '../../models/user-register';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -26,9 +26,11 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-  OnSubmit(form: NgForm){
+  onSubmit(form: NgForm){
+    console.log(form.value);
     this.userService.registerUser(form.value)
     .subscribe((data: any) => {
+      console.log(data);
       if(data.Succeeded == true)
         this.resetForm(form);
     });

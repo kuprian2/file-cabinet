@@ -9,7 +9,7 @@ import { UserRegister } from '../../models/user-register';
   providedIn: 'root'
 })
 export class UserService {
-  readonly rooturl = "http://localhost:xxxx";
+  readonly rooturl = "http://localhost:7068";
 
   constructor(private http: HttpClient) { }
 
@@ -18,8 +18,7 @@ export class UserService {
       Email: user.Email,
       Password: user.Password,
       ConfirmPassword: user.ConfirmPassword
-    }
-    
+    };
     return this.http.post(this.rooturl + "/api/account/register", body);
   }
 }
