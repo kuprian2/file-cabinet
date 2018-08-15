@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserRegister } from '../../models/user-register';
-import { NgForm, FormsModule } from '@angular/forms';
-import { UserService } from '../services/user.service';
+import { NgForm } from '@angular/forms';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,7 +10,7 @@ import { UserService } from '../services/user.service';
 })
 export class SignUpComponent implements OnInit {
   user: UserRegister;
-  
+
   constructor(private userService: UserService) { }
 
   ngOnInit() {
@@ -27,10 +27,8 @@ export class SignUpComponent implements OnInit {
   }
 
   onSubmit(form: NgForm){
-    console.log(form.value);
     this.userService.registerUser(form.value)
     .subscribe((data: any) => {
-      console.log(data);
       if(data.Succeeded == true)
         this.resetForm(form);
     });

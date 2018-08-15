@@ -28,7 +28,6 @@ namespace FileCabinet.WebApi
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             WebApiConfig.Register(config);
-            app.UseCors(CorsOptions.AllowAll);
 
             app.UseAutofacMiddleware(container);
             ConfigureAuth(app);

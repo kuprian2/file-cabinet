@@ -1,0 +1,16 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="">File Cabinet</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <button class="nav-item nav-link btn btn-dark" routerLink="/files"><span class="mr-auto">Files</span></button>
+      <button class="nav-item nav-link btn btn-dark" routerLink="/tags">Tags</button>
+      <button *ngIf="userAuthorized()" class="nav-item nav-link btn btn-dark" routerLink="/signin"> Sign In</button>
+      <button *ngIf="userAuthorized()" class="nav-item nav-link btn btn-dark" routerLink="/signup"> Sign Up</button>
+      <button *ngIf="!userAuthorized()" (click)="logout()" class="nav-item btn btn-dark">Log Out</button>
+    </div>
+  </div>
+</nav>
+<router-outlet></router-outlet>

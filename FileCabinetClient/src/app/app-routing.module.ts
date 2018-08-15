@@ -5,6 +5,7 @@ import { FilesComponent } from './components/files/files.component'
 import { TagsComponent } from './components/tags/tags.component'
 import { SignInComponent } from './components/sign-in/sign-in.component'
 import { SignUpComponent } from './components/sign-up/sign-up.component'
+import { HomeComponent } from './components/home/home.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/files', pathMatch: 'full' },

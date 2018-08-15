@@ -183,7 +183,7 @@ namespace FileCabinet.WebApi.Controllers
 
             var fileTagsIds = splitFileTagsIdsValue.Select(int.Parse);
 
-            return (await _tagService.FindAsync(tag => fileTagsIds.Contains(tag.Id))).ToList();
+            return (await _tagService.FindByIdsAsync(fileTagsIds)).ToList();
         }
     }
 }

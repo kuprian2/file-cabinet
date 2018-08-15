@@ -1,13 +1,34 @@
 <div class="container">
-  <form>
+  <form #userLoginForm="ngForm"
+        (ngSubmit)="onSubmit(userLoginForm)">
     <div class="form-group">
-      <label for="userEmail">Email Address</label>
-      <input type="email" class="form-control" id="userEmail" aria-describedby="emailHelp" placeholder="Enter email">
+      <label for="userEmail"
+             data-error="Required field.">Email Address</label>
+      <input type="email"
+             class="form-control validate col-10 col-sm-9 col-md-6 col-lg-4"
+             id="userEmail"
+             aria-describedby="emailHelp"
+             placeholder="Enter email"
+             name="Email"
+             #Email="ngModel"
+             [(ngModel)]="user.Email"
+             required>
     </div>
     <div class="form-group">
-      <label for="userPassword">Password</label>
-      <input type="password" class="form-control" id="userPassword" placeholder="Password">
+      <label for="userPassword"
+             data-error="Required field.">Password</label>
+      <input type="password"
+             class="form-control validate col-10 col-sm-9 col-md-6 col-lg-4"
+             id="userPassword"
+             placeholder="Password"
+             name="Password"
+             #Password="ngModel"
+             [(ngModel)]="user.Password"
+             required
+             minlength="6">
     </div>
-    <button type="submit" class="btn btn-dark">Sign In</button>
+    <button type="submit"
+            class="btn btn-dark"
+            [disabled]="!userLoginForm.valid">Sign In</button>
   </form>
 </div>
