@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserLogin } from '../../models/user-login';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -11,7 +12,10 @@ import { UserService } from '../../services/user.service';
 export class SignInComponent implements OnInit {
   user: UserLogin;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.resetForm();
@@ -34,6 +38,7 @@ export class SignInComponent implements OnInit {
         localStorage.setItem("userId", userInfo.Id);
         localStorage.setItem("userEmail", userInfo.Email);
         this.resetForm(form);
+        this.router.navigate([""]);
       });
     });
   }

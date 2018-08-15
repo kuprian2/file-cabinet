@@ -8,12 +8,12 @@ import { UserLogin } from '../models/user-login';
   providedIn: 'root'
 })
 export class UserService {
-  readonly rooturl = "http://localhost:7068";
+  readonly rootUrl = "http://localhost:7068";
 
   constructor(private http: HttpClient) { }
 
   registerUser(user: UserRegister){
-    const url = `${this.rooturl}/api/account/register`;
+    const url = `${this.rootUrl}/api/account/register`;
     const body: UserRegister = {
       Email: user.Email,
       Password: user.Password,
@@ -23,7 +23,7 @@ export class UserService {
   }
 
   authenticateUser(user: UserLogin){
-    const url = `${this.rooturl}/token`;
+    const url = `${this.rootUrl}/token`;
     const body = new HttpParams()
     .set("grant_type", "password")
     .set("username", user.Email)
@@ -35,7 +35,7 @@ export class UserService {
   }
 
   getUserInfo(){
-    const url = `${this.rooturl}/api/account/userinfo`;
+    const url = `${this.rootUrl}/api/account/userinfo`;
     var header = new HttpHeaders()
     .set("Authorization", `Bearer ${localStorage.getItem("userToken")}`);
 

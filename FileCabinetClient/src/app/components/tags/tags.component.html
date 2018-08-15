@@ -1,3 +1,11 @@
-<p>
-  tags works!
-</p>
+<div class="container">
+  <h3 class="display-4">Available tags</h3>
+  <ul class="list-group col-10 col-sm-9 col-md-6 col-lg-4">
+    <li *ngIf="userAuthorized()" class="list-group-item list-group-item-action list-group-item-primary">
+      <a>Add new tag!</a>
+    </li>
+    <li *ngFor="let tag of tags" class="list-group-item list-group-item-dark">
+      {{tag.Name}}
+    </li>
+  </ul>
+</div>
