@@ -1,0 +1,21 @@
+<div class="container">
+    <h3 class="display-4">Create New Tag</h3>
+    <form #tagCreationForm="ngForm"
+          (ngSubmit)="onSubmit(tagCreationForm)">
+      <div class="form-group">
+        <label for="tagName"
+               data-error="Required field.">Tag name</label>
+        <input type="text"
+               class="form-control col-10 col-sm-9 col-md-6 col-lg-4"
+               id="tagName"
+               placeholder="Enter tag name"
+               name="Name"
+               #Name="ngModel"
+               [(ngModel)]="tag.Name"
+               required>
+      </div>
+      <button type="submit"
+              class="btn btn-dark"
+              [disabled]="!tagCreationForm.valid">Create</button>
+    </form>
+  </div>

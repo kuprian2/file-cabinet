@@ -61,7 +61,7 @@ namespace FileCabinet.Bll.Services
 
         private void MakeValidTag(Tag tag)
         {
-            tag.Name = tag.Name.Trim(' ');
+            tag.Name = tag.Name.Trim(' ').Replace(' ', '_');
         }
 
         public IEnumerable<TagDto> FindByIds(IEnumerable<int> ids)

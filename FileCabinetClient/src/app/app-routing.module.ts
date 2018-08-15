@@ -5,12 +5,13 @@ import { FilesComponent } from './components/files/files.component'
 import { TagsComponent } from './components/tags/tags.component'
 import { SignInComponent } from './components/sign-in/sign-in.component'
 import { SignUpComponent } from './components/sign-up/sign-up.component'
-import { HomeComponent } from './components/home/home.component'
+import { TagCreateComponent } from './components/tag-create/tag-create.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/files', pathMatch: 'full' },
   { path: 'files', component: FilesComponent },
   { path: 'tags', component: TagsComponent },
+  { path: 'newtag', component: TagCreateComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'signup', component: SignUpComponent }];
 

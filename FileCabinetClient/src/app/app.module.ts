@@ -11,6 +11,7 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { UserService } from './services/user.service';
 import { HttpClientModule } from '../../node_modules/@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
+import { TagCreateComponent } from './components/tag-create/tag-create.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HomeComponent } from './components/home/home.component';
     TagsComponent,
     SignInComponent,
     SignUpComponent,
-    HomeComponent
+    HomeComponent,
+    TagCreateComponent
   ],
   imports: [
     BrowserModule,
