@@ -5,17 +5,17 @@ import { TagCreate } from '../models/tag-create';
 @Injectable({
   providedIn: 'root'
 })
-export class TagsService {
+export class TagService {
   readonly rootUrl = "http://localhost:7068";
 
   constructor(private http: HttpClient) { }
 
-  GetAllTags(){
+  GetAllTags() {
     const url = `${this.rootUrl}/api/tags`;
     return this.http.get(url);
   }
 
-  CreateTag(tag:  TagCreate){
+  CreateTag(tag:  TagCreate) {
     const url = `${this.rootUrl}/api/tags`;
     const body = new HttpParams()
     .set("Name", tag.Name);

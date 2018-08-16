@@ -1,0 +1,31 @@
+<div class="container">
+  <h3 class="display-4">File Info</h3>
+  <div class="card">
+    <div class="card-header">
+      <button class="btn btn-dark" (click)="goBack()">Back</button>
+    </div>
+      <div class="card-body">
+        <h5 class="card-title">{{file.Name}}</h5>
+        <p class="card-text">{{file.Description}}</p>
+        <div class="row">
+          <ul class="nav nav-pills card-header-tabs">
+            <li class="nav-item mx-3">
+              <button class="nav-link btn btn-dark" [disabled]="userAuthorized()">Download</button>
+            </li>
+            <li class="nav-item mr-3">
+              <button class="nav-link btn btn-dark" [disabled]="userAuthorized()">Edit</button>
+            </li>
+            <li class="nav-item mr-3">
+              <button class="nav-link btn btn-dark" [disabled]="userAuthorized()">Delete</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="card-footer text-muted">
+        <div class="row">
+            <span class="mr-auto">Size: {{file.SizeInBytes}}</span>
+            <span class="ml-auto">Uploaded {{file.UploadDate}}</span>
+        </div>
+      </div>
+    </div>
+</div>

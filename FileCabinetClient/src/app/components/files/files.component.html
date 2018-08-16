@@ -28,8 +28,10 @@
         </div>
       </li>
 
-    <li *ngFor="let file of files" class="list-group-item list-group-item-action list-group-item-dark">
-      <a class="row">
+    <li *ngFor="let file of files"
+        class="list-group-item list-group-item-action list-group-item-dark"
+        routerLink="/files/{{file.Id}}">
+      <div class="row">
         <div class="col col-6">
           <span>{{file.Name}}</span>
         </div>
@@ -39,7 +41,7 @@
         <div class="col col-3">
           <span>{{file.UploadDate}}</span>
         </div>
-      </a>
+      </div>
     </li>
   </ul>
 </div>

@@ -21,7 +21,7 @@ export class SignUpComponent implements OnInit {
     this.resetForm();
   }
 
-  resetForm(form?: NgForm){
+  resetForm(form?: NgForm) {
     if(form != null) form.reset();
     this.user = {
       Email: "",
@@ -30,8 +30,8 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-  onSubmit(form: NgForm){
-    this.userService.registerUser(form.value)
+  onSubmit(form: NgForm) {
+    this.userService.RegisterUser(form.value)
     .subscribe((data: any) => {
       if(data.Succeeded == true)
         this.resetForm(form);

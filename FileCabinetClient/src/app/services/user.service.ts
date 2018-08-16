@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { UserRegister } from '../models/user-register';
 import { UserLogin } from '../models/user-login';
+import { UserInfo } from '../models/user-info';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -12,7 +14,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  registerUser(user: UserRegister){
+  RegisterUser(user: UserRegister) {
     const url = `${this.rootUrl}/api/account/register`;
     const body: UserRegister = {
       Email: user.Email,
@@ -22,7 +24,7 @@ export class UserService {
     return this.http.post(url, body);
   }
 
-  authenticateUser(user: UserLogin){
+  AuthenticateUser(user: UserLogin) {
     const url = `${this.rootUrl}/token`;
     const body = new HttpParams()
     .set("grant_type", "password")
@@ -34,11 +36,11 @@ export class UserService {
     return this.http.post(url, body.toString(), { headers: header });
   }
 
-  getUserInfo(){
+  GetUserInfo() : Observable<UserInfo> {
     const url = `${this.rootUrl}/api/account/userinfo`;
     var header = new HttpHeaders()
     .set("Authorization", `Bearer ${localStorage.getItem("userToken")}`);
 
-    return this.http.get(url, { headers: header });
+    return this.http.get<UserInfo>(url, { headers: header });
   }
 }

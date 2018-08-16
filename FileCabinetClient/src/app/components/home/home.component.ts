@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-home',
@@ -7,18 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private commonService: CommonService) { }
 
   ngOnInit() {
   }
 
-  userAuthorized(){
-    return localStorage.getItem("userToken") == null;
+  userAuthorized() {
+    return this.commonService.UserAuthorized();
   }
 
-  logout(){
-    localStorage.removeItem("userToken");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("userEmail");
+  logout() {
+    this.commonService.RemoveLocalUserData();
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TagCreate } from '../../models/tag-create';
 import { NgForm } from '@angular/forms';
-import { TagsService } from '../../services/tags.service';
+import { TagService } from '../../services/tag.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,7 +13,7 @@ export class TagCreateComponent implements OnInit {
   tag: TagCreate;
 
   constructor(
-    private tagsService: TagsService,
+    private tagService: TagService,
     private router: Router
   ) { }
 
@@ -21,15 +21,15 @@ export class TagCreateComponent implements OnInit {
     this.resetForm();
   }
 
-  resetForm(form?: NgForm){
+  resetForm(form?: NgForm) {
     if(form != null) form.reset();
     this.tag = {
       Name: ""
     }
   }
 
-  onSubmit(form: NgForm){
-    this.tagsService.CreateTag(form.value)
+  onSubmit(form: NgForm) {
+    this.tagService.CreateTag(form.value)
     .subscribe((data: any) => {
       if(data.Succeeded == true)
         this.resetForm(form);

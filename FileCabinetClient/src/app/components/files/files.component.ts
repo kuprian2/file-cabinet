@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FileInfo } from '../../models/file-info';
 import { FileInfoService } from '../../services/file-info.service';
-import { TagInfo } from '../../models/tag-info';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-files',
@@ -11,13 +11,16 @@ import { TagInfo } from '../../models/tag-info';
 export class FilesComponent implements OnInit {
   files: FileInfo[];
 
-  constructor(private fileInfoService: FileInfoService) { }
+  constructor(
+    private fileInfoService: FileInfoService,
+    private commonService: CommonService
+  ) { }
 
   ngOnInit() {
     this.fetchFiles();
   }
 
-  fetchFiles(keyword?: string, tags?: string[]){
+  fetchFiles(keyword?: string, tags?: string[]) {
     var observableFiles;
 
     if(keyword != null){
@@ -34,13 +37,13 @@ export class FilesComponent implements OnInit {
     .subscribe((data: FileInfo[]) => {
       this.files = data;
       this.files.forEach((file => {
-        file.SizeInBytes = this.getFileSize(+file.SizeInBytes);
-        file.UploadDate = new Date(Date.parse(file.UploadDate)).toLocaleString();
+        file.SizeInBytes = this.commonService.FormatFileSize(+file.SizeInBytes);
+        file.UploadDate = this.commonService.FormatDate(file.UploadDate);
       }))
     });
   }
 
-  onSearch(searchString: string){
+  onSearch(searchString: string) {
     var keywords = searchString.trim().split(" ");
     if(keywords.length == 0){
       return;
@@ -52,16 +55,5 @@ export class FilesComponent implements OnInit {
     }
 
     this.fetchFiles(null, keywords);
-  }
-
-  getFileSize(sizeInBytes: number){
-    var i = -1;
-    var byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
-    do {
-      sizeInBytes = sizeInBytes / 1024;
-        i++;
-    } while (sizeInBytes > 1024);
-
-    return Math.max(sizeInBytes, 0.1).toFixed(2) + byteUnits[i];
   }
 }

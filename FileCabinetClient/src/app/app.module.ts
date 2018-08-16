@@ -12,6 +12,7 @@ import { UserService } from './services/user.service';
 import { HttpClientModule } from '../../node_modules/@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { TagCreateComponent } from './components/tag-create/tag-create.component';
+import { FileDetailComponent } from './components/file-detail/file-detail.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { TagCreateComponent } from './components/tag-create/tag-create.component
     SignInComponent,
     SignUpComponent,
     HomeComponent,
-    TagCreateComponent
+    TagCreateComponent,
+    FileDetailComponent
   ],
   imports: [
     BrowserModule,

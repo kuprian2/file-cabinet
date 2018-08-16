@@ -11,7 +11,7 @@ export class FileInfoService {
 
   constructor(private http: HttpClient) { }
 
-  GetFiles(keyword?: string) : Observable<FileInfo[]>{
+  GetFiles(keyword?: string) : Observable<FileInfo[]> {
     var url = `${this.rootUrl}/api/files`;
     if(keyword != null){
       url = `${url}?keyword=${keyword}`;
@@ -20,10 +20,16 @@ export class FileInfoService {
     return this.http.get<FileInfo[]>(url);
   }
 
-  GetFilesByTags(tags: string[]) : Observable<FileInfo[]>{
+  GetFilesByTags(tags: string[]) : Observable<FileInfo[]> {
     var searchParams = `?tags=${tags.join(",")}`
     const url = `${this.rootUrl}/api/files${searchParams}`;
     
     return this.http.get<FileInfo[]>(url);
+  }
+
+  GetFile(id: number) : Observable<FileInfo> {
+    var url = `${this.rootUrl}/api/files/${id}`;
+
+    return this.http.get<FileInfo>(url);
   }
 }
