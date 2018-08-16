@@ -5,18 +5,25 @@
       <button class="btn btn-dark" (click)="goBack()">Back</button>
     </div>
       <div class="card-body">
-        <h5 class="card-title">{{file.Name}}</h5>
+        <h4 class="card-title">{{file.Name}}</h4>
+        <div class="row">
+          <ul class="list-inline ml-3">
+            <li *ngFor="let tag of file.Tags" class="list-inline-item ml-2">
+              <button type="button" class="btn btn-outline-dark btn-sm">{{tag.Name}}</button>
+            </li>
+          </ul>
+        </div>
         <p class="card-text">{{file.Description}}</p>
         <div class="row">
           <ul class="nav nav-pills card-header-tabs">
             <li class="nav-item mx-3">
-              <button class="nav-link btn btn-dark" [disabled]="userAuthorized()">Download</button>
+              <button class="nav-link btn btn-dark" [disabled]="!userAuthorized()">Download</button>
             </li>
             <li class="nav-item mr-3">
-              <button class="nav-link btn btn-dark" [disabled]="userAuthorized()">Edit</button>
+              <button class="nav-link btn btn-dark" [disabled]="!userAuthorized()">Edit</button>
             </li>
             <li class="nav-item mr-3">
-              <button class="nav-link btn btn-dark" [disabled]="userAuthorized()">Delete</button>
+              <button class="nav-link btn btn-dark" [disabled]="!userAuthorized()">Delete</button>
             </li>
           </ul>
         </div>

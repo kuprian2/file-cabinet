@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using FileCabinet.Dal.Contracts.Domain;
 using File = FileCabinet.Dal.Contracts.Domain.File;
 
 namespace FileCabinet.Bll.Services
@@ -17,11 +18,13 @@ namespace FileCabinet.Bll.Services
     public class FileService : ComplexEntityService<FileDto, File>, IFileService
     {
         protected readonly IFileStorageService FileStorageService;
+        protected readonly IRepository<Tag, int> TagRepository;
 
-        public FileService(IUnitOfWork unitOfWork, IRepository<File, int> repository, IMapper mapper,
-            IFileStorageService fileStorageService)
+        public FileService(IUnitOfWork unitOfWork, IRepository<File, int> repository, IRepository<Tag, int> tagRepository,
+            IMapper mapper, IFileStorageService fileStorageService)
             : base(unitOfWork, repository, mapper)
         {
+            TagRepository = tagRepository;
             FileStorageService = fileStorageService;
         }
 
@@ -29,7 +32,7 @@ namespace FileCabinet.Bll.Services
         {
             if (fileDto == null) throw new ArgumentNullException(nameof(fileDto));
             if (stream == null) throw new ArgumentNullException(nameof(stream));
-            
+
 
             var storageFilePath = FileStorageService.Create(stream, fileDto.Name);
 
@@ -55,6 +58,9 @@ namespace FileCabinet.Bll.Services
             mappedFile.Url = storageFilePath;
             mappedFile.SizeInBytes = FileStorageService.GetInfo(storageFilePath).Length;
             mappedFile.UploadDate = DateTime.Now;
+
+            var tagIds = mappedFile.Tags.Select(x => x.Id);
+            mappedFile.Tags = (await TagRepository.FindAsync(tag => tagIds.Contains(tag.Id))).ToList();
 
             await Repository.CreateAsync(mappedFile);
             await UnitOfWork.SaveChangesAsync();

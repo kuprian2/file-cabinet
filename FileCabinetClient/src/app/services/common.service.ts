@@ -24,7 +24,7 @@ export class CommonService {
   }
 
   UserAuthorized() : boolean {
-    return localStorage.getItem("userToken") == null;
+    return localStorage.getItem("userToken") != null;
   }
 
   RemoveLocalUserData() : void {

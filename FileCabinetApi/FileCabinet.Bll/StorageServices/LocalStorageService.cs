@@ -72,7 +72,7 @@ namespace FileCabinet.Bll.StorageServices
             var normalizedFileName = GetAppropriateFileName(filename);
 
             return Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                AppDomain.CurrentDomain.GetData("DataDirectory").ToString(),
                 normalizedFileName);
         }
 
@@ -83,7 +83,6 @@ namespace FileCabinet.Bll.StorageServices
                     .Trim()
                     .Replace(' ', '-')
                     .ToLowerInvariant()
-                    .Except(Path.GetInvalidFileNameChars())
                     .ToArray();
 
             return new string(filenameChars);

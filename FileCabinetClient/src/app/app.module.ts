@@ -13,6 +13,7 @@ import { HttpClientModule } from '../../node_modules/@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { TagCreateComponent } from './components/tag-create/tag-create.component';
 import { FileDetailComponent } from './components/file-detail/file-detail.component';
+import { UploadFileComponent } from './components/upload-file/upload-file.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { FileDetailComponent } from './components/file-detail/file-detail.compon
     SignUpComponent,
     HomeComponent,
     TagCreateComponent,
-    FileDetailComponent
+    FileDetailComponent,
+    UploadFileComponent
   ],
   imports: [
     BrowserModule,

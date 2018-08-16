@@ -32,7 +32,8 @@ export class FileDetailComponent implements OnInit {
       Name: file.Name,
       Description: file.Description,
       SizeInBytes: this.commonService.FormatFileSize(+file.SizeInBytes),
-      UploadDate: this.commonService.FormatDate(file.UploadDate)
+      UploadDate: this.commonService.FormatDate(file.UploadDate),
+      Tags: file.Tags
     });
   }
 

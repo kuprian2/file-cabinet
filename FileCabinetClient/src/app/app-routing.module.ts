@@ -7,6 +7,7 @@ import { SignInComponent } from './components/sign-in/sign-in.component'
 import { SignUpComponent } from './components/sign-up/sign-up.component'
 import { TagCreateComponent } from './components/tag-create/tag-create.component'
 import { FileDetailComponent } from './components/file-detail/file-detail.component'
+import { UploadFileComponent } from './components/upload-file/upload-file.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/files', pathMatch: 'full' },
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'tags', component: TagsComponent },
   { path: 'newtag', component: TagCreateComponent },
   { path: 'signin', component: SignInComponent },
-  { path: 'signup', component: SignUpComponent }];
+  { path: 'signup', component: SignUpComponent },
+  { path: 'upload', component: UploadFileComponent }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

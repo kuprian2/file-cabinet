@@ -7,9 +7,10 @@
     <div class="navbar-nav">
       <button class="nav-item nav-link btn btn-dark" routerLink="/files"><span class="mr-auto">Files</span></button>
       <button class="nav-item nav-link btn btn-dark" routerLink="/tags">Tags</button>
-      <button *ngIf="userAuthorized()" class="nav-item nav-link btn btn-dark" routerLink="/signin"> Sign In</button>
-      <button *ngIf="userAuthorized()" class="nav-item nav-link btn btn-dark" routerLink="/signup"> Sign Up</button>
-      <button *ngIf="!userAuthorized()" (click)="logout()" class="nav-item btn btn-dark">Log Out</button>
+      <button *ngIf="!userAuthorized()" class="nav-item nav-link btn btn-dark" routerLink="/signin"> Sign In</button>
+      <button *ngIf="!userAuthorized()" class="nav-item nav-link btn btn-dark" routerLink="/signup"> Sign Up</button>
+      <button *ngIf="userAuthorized()" class="nav-item nav-link btn btn-dark" routerLink="/upload">Upload File</button>
+      <button *ngIf="userAuthorized()" (click)="logout()" class="nav-item nav-link btn btn-dark">Log Out</button>
     </div>
   </div>
 </nav>

@@ -23,7 +23,7 @@ export class FilesComponent implements OnInit {
   fetchFiles(keyword?: string, tags?: string[]) {
     var observableFiles;
 
-    if(keyword != null){
+    if(keyword != null && keyword != ""){
       observableFiles = this.fileInfoService.GetFiles(keyword);
     }
     else if(tags != null){
