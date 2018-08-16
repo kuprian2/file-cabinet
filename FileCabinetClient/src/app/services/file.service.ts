@@ -23,4 +23,20 @@ export class FileService {
 
     return this.http.post(url, formData, { headers : header});
   }
+
+  DeleteFile(id: number) {
+    const url = `${this.rootUrl}/api/files/${id}`;
+    var header = new HttpHeaders()
+    .set("Authorization", `Bearer ${localStorage.getItem("userToken")}`);
+
+    return this.http.delete(url, { headers : header });
+  }
+
+  DownloadFile(id: number) {
+    const url = `${this.rootUrl}/api/download/${id}`;
+    var header = new HttpHeaders()
+    .set("Authorization", `Bearer ${localStorage.getItem("userToken")}`);
+
+    return this.http.get(url, { headers : header, responseType : "blob", reportProgress : true });
+  }
 }

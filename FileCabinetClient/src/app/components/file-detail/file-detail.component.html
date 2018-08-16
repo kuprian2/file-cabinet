@@ -17,13 +17,13 @@
         <div class="row">
           <ul class="nav nav-pills card-header-tabs">
             <li class="nav-item mx-3">
-              <button class="nav-link btn btn-dark" [disabled]="!userAuthorized()">Download</button>
+              <button class="nav-link btn btn-dark" [disabled]="!userAuthorized()" (click)="onDownloadClick()">Download</button>
             </li>
             <li class="nav-item mr-3">
               <button class="nav-link btn btn-dark" [disabled]="!userAuthorized()">Edit</button>
             </li>
             <li class="nav-item mr-3">
-              <button class="nav-link btn btn-dark" [disabled]="!userAuthorized()">Delete</button>
+              <button class="nav-link btn btn-dark" [disabled]="!userAuthorized()" (click)="onDeleteClick()">Delete</button>
             </li>
           </ul>
         </div>

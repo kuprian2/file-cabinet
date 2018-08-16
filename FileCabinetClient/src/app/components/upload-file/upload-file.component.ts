@@ -34,7 +34,6 @@ export class UploadFileComponent implements OnInit {
     if(form != null){
       form.reset();
     }
-    //this.file = null;
     this.fileName = "";
     this.fileDescription = "";
     this.fileTags = "";

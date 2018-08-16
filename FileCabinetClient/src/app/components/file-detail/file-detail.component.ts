@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { FileInfoService } from '../../services/file-info.service';
 import { FileInfo } from '../../models/file-info';
 import { CommonService } from '../../services/common.service';
+import { FileService } from '../../services/file.service';
+import { saveAs } from 'file-saver'
 
 @Component({
   selector: 'app-file-detail',
@@ -15,8 +17,10 @@ export class FileDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private location: Location,
     private fileInfoService: FileInfoService,
+    private fileService: FileService,
     private commonService: CommonService
   ) { }
 
@@ -43,5 +47,20 @@ export class FileDetailComponent implements OnInit {
 
   userAuthorized() {
     return this.commonService.UserAuthorized();
+  }
+
+  onDeleteClick() {
+    var confirmed = confirm("Are you sure to delete this file?");
+    if(!confirmed) return;
+
+    this.fileService.DeleteFile(this.file.Id)
+    .subscribe(() => {
+      this.router.navigate(["/files"]);
+    });
+  }
+
+  onDownloadClick() {
+    this.fileService.DownloadFile(this.file.Id)
+    .subscribe(blobData => { console.log(blobData); saveAs(blobData, this.file.Name)});
   }
 }
