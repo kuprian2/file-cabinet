@@ -1,3 +1,45 @@
-<p>
-  files works!
-</p>
+<div class="container">
+  <h3 class="display-4">File Storage</h3>
+  <form class="input-group mb-3"
+        #searchForm="ngForm"
+        (ngSubmit)="onSearch(searchForm.value.SearchInfo)">
+      <div class="input-group-prepend">
+        <button class="btn btn-dark" type="submit">Search</button>
+      </div>
+      <input type="search"
+             class="form-control"
+             placeholder="Keyword or tags divided with spaces"
+             name="SearchInfo"
+             #SearchInfo="ngModel"
+             [(ngModel)]="SearchString">
+    </form>
+  <ul class="list-group">
+    <li class="list-group-item btn-dark active">
+        <div class="row">
+          <div class="col col-6">
+            <span>File Name</span>
+          </div>
+          <div class="col col-3">
+            <span>File Size</span>
+          </div>
+          <div class="col col-3">
+            <span>Upload Date</span>
+          </div>
+        </div>
+      </li>
+
+    <li *ngFor="let file of files" class="list-group-item list-group-item-action list-group-item-dark">
+      <a class="row">
+        <div class="col col-6">
+          <span>{{file.Name}}</span>
+        </div>
+        <div class="col col-3">
+          <span>{{file.SizeInBytes}}</span>
+        </div>
+        <div class="col col-3">
+          <span>{{file.UploadDate}}</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+</div>
