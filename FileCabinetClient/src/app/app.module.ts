@@ -14,6 +14,7 @@ import { HomeComponent } from './components/home/home.component';
 import { TagCreateComponent } from './components/tag-create/tag-create.component';
 import { FileDetailComponent } from './components/file-detail/file-detail.component';
 import { UploadFileComponent } from './components/upload-file/upload-file.component';
+import { EditFileComponent } from './components/edit-file/edit-file.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { UploadFileComponent } from './components/upload-file/upload-file.compon
     HomeComponent,
     TagCreateComponent,
     FileDetailComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    EditFileComponent
   ],
   imports: [
     BrowserModule,

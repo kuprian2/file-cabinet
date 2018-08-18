@@ -5,6 +5,7 @@ using FileCabinet.WebApi.ModelBinders;
 using FileCabinet.WebApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -146,24 +147,22 @@ namespace FileCabinet.WebApi.Controllers
 
             if (parsedTags == null) return BadRequest();
 
+            var oldFile = await _fileService.GetAsync(id);
+
             var fileDto = new FileDto
             {
                 Name = fileName,
                 Description = fileDescription,
-                Tags = parsedTags
+                Tags = parsedTags,
+                Id = id,
+                SizeInBytes = oldFile.SizeInBytes,
+                UploadDate = oldFile.UploadDate
             };
 
             var file = httpRequest.Files["file"];
 
-            if (file == null)
-            {
-                await _fileService.UpdateAsync(fileDto);
-            }
-            else
-            {
-                var newFileStream = file.InputStream;
-                await _fileService.UpdateAsync(fileDto, newFileStream);
-            }
+            var newFileStream = file?.InputStream;
+            await _fileService.UpdateAsync(fileDto, newFileStream);
 
             return Ok();
         }

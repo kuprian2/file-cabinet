@@ -61,6 +61,6 @@ export class FileDetailComponent implements OnInit {
 
   onDownloadClick() {
     this.fileService.DownloadFile(this.file.Id)
-    .subscribe(blobData => { console.log(blobData); saveAs(blobData, this.file.Name)});
+    .subscribe(blobData => { saveAs(blobData, this.file.Name)});
   }
 }

@@ -41,6 +41,9 @@ namespace FileCabinet.Bll.Services
             mappedFile.SizeInBytes = FileStorageService.GetInfo(storageFilePath).Length;
             mappedFile.UploadDate = DateTime.Now;
 
+            var tagIds = mappedFile.Tags.Select(x => x.Id);
+            mappedFile.Tags = TagRepository.Find(tag => tagIds.Contains(tag.Id)).ToList();
+
             Repository.Create(mappedFile);
             UnitOfWork.SaveChanges();
 
@@ -71,27 +74,44 @@ namespace FileCabinet.Bll.Services
         public override void Update(FileDto fileDto, Stream stream)
         {
             if (fileDto == null) throw new ArgumentNullException(nameof(fileDto));
-            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            
+            var file = Mapper.Map<File>(Get(fileDto.Id));
 
-            var fileInfo = Get(fileDto.Id);
+            if (stream != null)
+            {
+                FileStorageService.Delete(file.Url);
+                file.Url = FileStorageService.Create(stream, fileDto.Name);
+                file.SizeInBytes = FileStorageService.GetInfo(fileDto.Url).Length;
+            }
 
-            FileStorageService.Delete(fileInfo.Url);
-            fileDto.Url = FileStorageService.Create(stream, fileDto.Name);
+            //var tagIds = fileDto.Tags.Select(x => x.Id).ToList();
+            //file.Tags = TagRepository.Find(tag => tagIds.Contains(tag.Id)).ToList();
+            file.Name = fileDto.Name;
+            file.Description = fileDto.Description;
 
-            base.Update(fileDto);
+            Repository.Update(file);
+            UnitOfWork.SaveChanges();
         }
 
         public override async Task UpdateAsync(FileDto fileDto, Stream stream)
         {
             if (fileDto == null) throw new ArgumentNullException(nameof(fileDto));
-            if (stream == null) throw new ArgumentNullException(nameof(stream));
 
-            var fileInfo = await GetAsync(fileDto.Id);
+            var file = await Repository.GetAsync(fileDto.Id);
 
-            FileStorageService.Delete(fileInfo.Url);
-            fileDto.Url = await FileStorageService.CreateAsync(stream, fileDto.Name);
+            if (stream != null)
+            {
+                FileStorageService.Delete(file.Url);
+                file.Url = await FileStorageService.CreateAsync(stream, fileDto.Name);
+                file.SizeInBytes = FileStorageService.GetInfo(file.Url).Length;
+            }
+            
+            file.Tags = Mapper.Map<ICollection<Tag>>(fileDto.Tags);
+            file.Name = fileDto.Name;
+            file.Description = fileDto.Description;
 
-            await base.UpdateAsync(fileDto);
+            await Repository.UpdateAsync(file);
+            await UnitOfWork.SaveChangesAsync();
         }
 
         public override Stream Read(FileDto fileDto)

@@ -24,6 +24,20 @@ export class FileService {
     return this.http.post(url, formData, { headers : header});
   }
 
+  EditFile(id: number, fileName: string, fileDescription: string, fileTags: TagInfo[], fileToUpload?: File) {
+    const url = `${this.rootUrl}/api/upload/${id}`;
+    var header = new HttpHeaders()
+    .set("Authorization", `Bearer ${localStorage.getItem("userToken")}`);
+
+    const formData: FormData = new FormData();
+    if(fileToUpload != null) formData.append("file", fileToUpload, fileToUpload.name);
+    formData.append("fileName", fileName);
+    formData.append("fileDescription", fileDescription);
+    formData.append("fileTagsIds", fileTags.map(tag => tag.Id).join(","));
+
+    return this.http.put(url, formData, { headers : header });
+  }
+
   DeleteFile(id: number) {
     const url = `${this.rootUrl}/api/files/${id}`;
     var header = new HttpHeaders()

@@ -20,10 +20,6 @@ namespace FileCabinet.Dal.EF
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder
-                .Conventions
-                .Remove<OneToManyCascadeDeleteConvention>();
-
-            modelBuilder
                 .Properties<DateTime>()
                 .Configure(c => c.HasColumnType("datetime2"));
 

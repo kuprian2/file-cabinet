@@ -20,7 +20,7 @@
               <button class="nav-link btn btn-dark" [disabled]="!userAuthorized()" (click)="onDownloadClick()">Download</button>
             </li>
             <li class="nav-item mr-3">
-              <button class="nav-link btn btn-dark" [disabled]="!userAuthorized()">Edit</button>
+              <button class="nav-link btn btn-dark" [disabled]="!userAuthorized()" routerLink="/editfile/{{file.Id}}">Edit</button>
             </li>
             <li class="nav-item mr-3">
               <button class="nav-link btn btn-dark" [disabled]="!userAuthorized()" (click)="onDeleteClick()">Delete</button>

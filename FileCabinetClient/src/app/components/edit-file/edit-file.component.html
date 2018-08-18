@@ -1,0 +1,48 @@
+<div class="container">
+    <h3 class="display-4">File Edit</h3>
+    <form #fileEditForm="ngForm"
+          (ngSubmit)="onSubmit(fileEditForm)">
+      <div class="form-group">
+        <label for="fileName"
+               data-error="Required field.">File Name</label>
+        <input type="text"
+               class="form-control col-10 col-sm-9 col-md-6 col-lg-4"
+               id="fileName"
+               placeholder="File Name"
+               name="FileName"
+               #FileName="ngModel"
+               [(ngModel)]="fileName"
+               required>
+      </div>
+      <div class="form-group">
+          <label for="fileDescription">File Description</label>
+          <textarea class="form-control col-10 col-sm-9 col-md-6 col-lg-4"
+                    id="fileDescription"
+                    placeholder="File Description"
+                    name="FileDescription"
+                    #FileDescription="ngModel"
+                    [(ngModel)]="fileDescription"></textarea>
+      </div>
+      <div class="form-group">
+          <label for="fileTags">File Tags</label>
+          <input type="text"
+                 class="form-control col-10 col-sm-9 col-md-6 col-lg-4"
+                 id="fileTags"
+                 placeholder="File tags divided with sapces"
+                 name="FileTags"
+                 #FileTags="ngModel"
+                 [(ngModel)]="fileTags">
+        </div>
+      <div class="form-group">
+          <input type="file"
+                 class="form-control col-10 col-sm-9 col-md-6 col-lg-4 py-1"
+                 (change)=handleFileInput($event.target.files)
+                 name="File"
+                 #File="ngModel"
+                 [(ngModel)]="file">
+      </div>
+      <button type="submit"
+              class="btn btn-dark"
+              [disabled]="!fileEditForm.valid">Apply</button>
+    </form>
+  </div>
