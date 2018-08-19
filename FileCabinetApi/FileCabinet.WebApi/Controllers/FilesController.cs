@@ -111,7 +111,7 @@ namespace FileCabinet.WebApi.Controllers
             if (fileName == null || fileDescription == null || fileTagsIds == null)
                 return BadRequest();
 
-            var parsedTags = await ParseTags(fileTagsIds);
+            var parsedTags = ParseTags(fileTagsIds);
 
             if (parsedTags == null) return BadRequest();
 
@@ -143,7 +143,7 @@ namespace FileCabinet.WebApi.Controllers
             if (fileName == null || fileDescription == null || fileTagsIds == null)
                 return BadRequest();
 
-            var parsedTags = await ParseTags(fileTagsIds);
+            var parsedTags = ParseTags(fileTagsIds);
 
             if (parsedTags == null) return BadRequest();
 
@@ -167,7 +167,7 @@ namespace FileCabinet.WebApi.Controllers
             return Ok();
         }
 
-        private async Task<ICollection<TagDto>> ParseTags(string fileTagsIdsValue)
+        private ICollection<TagDto> ParseTags(string fileTagsIdsValue)
         {
             var splitFileTagsIdsValue = fileTagsIdsValue
                 .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
@@ -182,7 +182,7 @@ namespace FileCabinet.WebApi.Controllers
 
             var fileTagsIds = splitFileTagsIdsValue.Select(int.Parse);
 
-            return (await _tagService.FindByIdsAsync(fileTagsIds)).ToList();
+            return fileTagsIds.Select(tagId => new TagDto{Id = tagId}).ToList();
         }
     }
 }

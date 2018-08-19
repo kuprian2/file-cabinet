@@ -3,7 +3,6 @@ using FileCabinet.Dal.Contracts.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -59,20 +58,7 @@ namespace FileCabinet.Dal.Repositories
 
         public async Task UpdateAsync(TEntity entity)
         {
-            try
-            {
-                //_dbSet.AddOrUpdate(entity);
-
-                //var entityInDataSource = await _dbSet.FindAsync(entity.Id);
-                //_dbContext.Entry(entityInDataSource).CurrentValues.SetValues(entity);
-
-                _dbContext.Entry(entity).State = EntityState.Modified;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            _dbContext.Entry(entity).State = EntityState.Modified;
             await Task.CompletedTask;
         }
 

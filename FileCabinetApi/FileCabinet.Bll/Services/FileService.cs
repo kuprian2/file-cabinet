@@ -3,6 +3,7 @@ using FileCabinet.Bll.Contracts.Dtos;
 using FileCabinet.Bll.Contracts.Services;
 using FileCabinet.Bll.Services.Base;
 using FileCabinet.Bll.StorageServices;
+using FileCabinet.Dal.Contracts.Domain;
 using FileCabinet.Dal.Contracts.Repositories;
 using FileCabinet.Dal.Contracts.UoW;
 using System;
@@ -10,7 +11,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using FileCabinet.Dal.Contracts.Domain;
 using File = FileCabinet.Dal.Contracts.Domain.File;
 
 namespace FileCabinet.Bll.Services
@@ -74,18 +74,17 @@ namespace FileCabinet.Bll.Services
         public override void Update(FileDto fileDto, Stream stream)
         {
             if (fileDto == null) throw new ArgumentNullException(nameof(fileDto));
-            
-            var file = Mapper.Map<File>(Get(fileDto.Id));
+
+            var file = Repository.Get(fileDto.Id);
 
             if (stream != null)
             {
                 FileStorageService.Delete(file.Url);
                 file.Url = FileStorageService.Create(stream, fileDto.Name);
-                file.SizeInBytes = FileStorageService.GetInfo(fileDto.Url).Length;
+                file.SizeInBytes = FileStorageService.GetInfo(file.Url).Length;
             }
 
-            //var tagIds = fileDto.Tags.Select(x => x.Id).ToList();
-            //file.Tags = TagRepository.Find(tag => tagIds.Contains(tag.Id)).ToList();
+            file.Tags = fileDto.Tags.Select(tag => TagRepository.Get(tag.Id)).ToList();
             file.Name = fileDto.Name;
             file.Description = fileDto.Description;
 
@@ -105,8 +104,13 @@ namespace FileCabinet.Bll.Services
                 file.Url = await FileStorageService.CreateAsync(stream, fileDto.Name);
                 file.SizeInBytes = FileStorageService.GetInfo(file.Url).Length;
             }
-            
-            file.Tags = Mapper.Map<ICollection<Tag>>(fileDto.Tags);
+
+            file.Tags = fileDto.Tags
+                .Select(tag => tag.Id)
+                .Select(async tagId => await TagRepository.GetAsync(tagId))
+                .Select(task => task.Result)
+                .ToList();
+
             file.Name = fileDto.Name;
             file.Description = fileDto.Description;
 
